@@ -11,6 +11,16 @@ func (ask *Ask) Type() SIDE {
 	return ASK
 }
 
+// OrderSize represents a generic interface implement for a Bid or an Ask.
+func (ask *Ask) OrderSize() int {
+	return ask.Size
+}
+
+// OrderPrice represents a generic interface implement for a Bid or an Ask.
+func (ask *Ask) OrderPrice() float64 {
+	return ask.Price
+}
+
 // Asks represent the entire Ask side of the lob.
 type Asks struct {
 	head  int
@@ -24,6 +34,11 @@ func NewAsks() *Asks {
 		head:  0,
 		ticks: make([]Ask, 0),
 	}
+}
+
+// Ticks returns the ticks populating the bid side.
+func (asks *Asks) Ticks() []Ask {
+	return asks.ticks
 }
 
 // Peek returns the sum of asks at a certain price.

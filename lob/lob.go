@@ -12,16 +12,16 @@ var (
 
 // LimitOrderBook a limit order book.
 type LimitOrderBook struct {
-	asks  *Asks
-	bids  *Bids
+	Asks  *Asks
+	Bids  *Bids
 	depth int
 }
 
 // NewLimitOrderBook creates a new instance of a lob data structure.
 func NewLimitOrderBook() *LimitOrderBook {
 	return &LimitOrderBook{
-		asks:  NewAsks(),
-		bids:  NewBids(),
+		Asks:  NewAsks(),
+		Bids:  NewBids(),
 		depth: 0,
 	}
 }
@@ -29,7 +29,7 @@ func NewLimitOrderBook() *LimitOrderBook {
 // Bid at a price level with a given size.
 func (lob *LimitOrderBook) Bid(price float64, size int) {
 
-	lob.bids.SetBid(Bid{
+	lob.Bids.SetBid(Bid{
 		Price: price,
 		Size:  size,
 	})
@@ -37,7 +37,7 @@ func (lob *LimitOrderBook) Bid(price float64, size int) {
 
 // Ask at a price level with a given size.
 func (lob *LimitOrderBook) Ask(price float64, size int) {
-	lob.asks.SetAsk(Ask{
+	lob.Asks.SetAsk(Ask{
 		Price: price,
 		Size:  size,
 	})
@@ -47,9 +47,9 @@ func (lob *LimitOrderBook) Ask(price float64, size int) {
 func (lob *LimitOrderBook) Peek(price float64, side SIDE) Order {
 	switch side {
 	case ASK:
-		return lob.asks.Peek(price)
+		return lob.Asks.Peek(price)
 	case BID:
-		return lob.bids.Peek(price)
+		return lob.Bids.Peek(price)
 	}
 
 	return nil
@@ -57,11 +57,12 @@ func (lob *LimitOrderBook) Peek(price float64, side SIDE) Order {
 
 // Snapshot returns a snapshot of resting orders at a given level.
 func (lob *LimitOrderBook) Snapshot(levels int) *LimitOrderBook {
-	bids := lob.bids.Snapshot(levels)
-	asks := lob.asks.Snapshot(levels)
+	bids := lob.Bids.Snapshot(levels)
+	asks := lob.Asks.Snapshot(levels)
 
 	return &LimitOrderBook{
-		bids: &Bids{head: lob.bids.head, ticks: bids},
-		asks: &Asks{head: lob.asks.head, ticks: asks},
+		Asks:  &Asks{head: lob.Asks.head, ticks: asks},
+		Bids:  &Bids{head: lob.Bids.head, ticks: bids},
+		depth: 0,
 	}
 }
