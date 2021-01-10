@@ -40,7 +40,7 @@ func TestLimitOrderBook(t *testing.T) {
 		return lob
 	}
 
-	t.Run("bid correct number of levels", func(t *testing.T) {
+	t.Run("TestBidCorrectNumberOfLevels", func(t *testing.T) {
 
 		levels := 1000 + rand.Intn(1000)
 		b := randomBook(BID, levels, 0, 1000)
