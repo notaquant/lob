@@ -6,6 +6,11 @@ type Bid struct {
 	Price float64
 }
 
+// Type represents a generic interface implementation for a Bid or an Ask.
+func (bid *Bid) Type() SIDE {
+	return BID
+}
+
 // Bids represent the entire Bid side of the lob.
 type Bids struct {
 	head  int
@@ -27,13 +32,18 @@ func (bids *Bids) Head() int {
 }
 
 // Peek returns the sum of Bids at a certain price.
-func (bids *Bids) Peek(price float64) int {
+func (bids *Bids) Peek(price float64) *Bid {
 
 	if len(bids.ticks) == 0 {
-		return 0
+		return nil
 	}
+	i := bids.Find(price)
+	item := bids.ticks[i]
 
-	return 1
+	if item.Price == price {
+		return &item
+	}
+	return nil
 }
 
 // SetBid sets an resting Bid at certain price and size

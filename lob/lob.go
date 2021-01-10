@@ -44,7 +44,7 @@ func (lob *LimitOrderBook) Ask(price float64, size int) {
 }
 
 // Peek the cumulative sum of orders at a given price.
-func (lob *LimitOrderBook) Peek(price float64, side SIDE) int {
+func (lob *LimitOrderBook) Peek(price float64, side SIDE) Order {
 	switch side {
 	case ASK:
 		return lob.asks.Peek(price)
@@ -52,7 +52,7 @@ func (lob *LimitOrderBook) Peek(price float64, side SIDE) int {
 		return lob.bids.Peek(price)
 	}
 
-	return 0
+	return nil
 }
 
 // Snapshot returns a snapshot of resting orders at a given level.

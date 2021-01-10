@@ -6,6 +6,11 @@ type Ask struct {
 	Price float64
 }
 
+// Type represents a generic interface implementation for a Bid or an Ask.
+func (ask *Ask) Type() SIDE {
+	return ASK
+}
+
 // Asks represent the entire Ask side of the lob.
 type Asks struct {
 	head  int
@@ -22,13 +27,18 @@ func NewAsks() *Asks {
 }
 
 // Peek returns the sum of asks at a certain price.
-func (asks *Asks) Peek(price float64) int {
+func (asks *Asks) Peek(price float64) *Ask {
 
 	if len(asks.ticks) == 0 {
-		return 0
+		return nil
 	}
+	i := asks.Find(price)
+	item := asks.ticks[i]
 
-	return 1
+	if item.Price == price {
+		return &item
+	}
+	return nil
 }
 
 // SetAsk sets an resting ask at certain price and size
